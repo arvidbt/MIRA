@@ -2,7 +2,6 @@
 var express = require('express');
 const req = require('express/lib/request');
 const res = require('express/lib/response');
-const cors = require("cors");
 const path = require("path");
 var app = express()
 var db = require("./database.js")
@@ -37,6 +36,7 @@ app.get("/api/users", (req, res, next) => {
 	});
 });
 
+
 // Get all tasks
 app.get("/api/tasks", (req, res, next) => {
 	var sql = "SELECT * FROM task"
@@ -69,23 +69,41 @@ app.get("/api/completed", (req, res, next) => {
 	});
 });
 
-// Get all tasks from certain id
-app.get("/api/task/:id", (req, res, next) => {
-	var sql = "SELECT * FROM task WHERE id = ?"
-	db.get(sql, params, (err, row) => {
+// Get all completed tasks from certain id
+app.get("/api/completed/:id", (req, res, next) => {
+	var sql = "SELECT * FROM completed_task WHERE task_id = ?"
+	params = [req.params.id, req.params.task_info];
+	console.log(req.params);
+	db.all(sql, params, (err, rows) => {
 		if(err) {
 			res.status(400).json({"error":err.message});
 			return;
 		}
 		res.json({
 			"message":"success",
-			"data":row
+			"data":rows
+		});
+	});
+})
+
+// Get all tasks from certain id
+app.get("/api/task/:id", (req, res, next) => {
+	var sql = "SELECT * FROM task WHERE task_id = ?"
+	params = [req.params.id, req.params.task_info];
+	console.log(req.params);
+	db.all(sql, params, (err, rows) => {
+		if(err) {
+			res.status(400).json({"error":err.message});
+			return;
+		}
+		res.json({
+			"message":"success",
+			"data":rows
 		});
 	});
 })
 
 // Get a single user from DB.
-// Ex. http://localhost:8000/api/user/8
 app.get("/api/user/:id", (req, res, next) => {
 	var sql = "SELECT * FROM user WHERE id = ?"
 	var params = [req.params.id]
@@ -102,29 +120,47 @@ app.get("/api/user/:id", (req, res, next) => {
 })
 
 // Adds task to database.
-// // Ex. curl -d "name=testing" -X POST http://localhost:8000/api/task/
-// app.post("/api/tasks", (req, res, next) => {
-// 	var data = {
-// 		id = req.body.id,
-// 		task_info = req.body.task_info
-// 	}
-// 	var sql = 'INSERT INTO task (id, task_info) VALUES (?,?)'
-// 	var params = [data.id, data.task_info]
-// 	db.run(sql, params, function(err, result) {
-// 		if(err) {
-// 			res.status(400).json({"error":err.message})
-// 			return
-// 		}
-// 		res.json({
-// 			"message":"success",
-// 			"data":data,
-// 		})
-// 	});
-// })
+app.post("/api/task", (req, res, next) => {
+	var data = {
+		task_id: req.body.task_id,
+		task_info: req.body.task_info
+	}
+	var sql = 'INSERT INTO task (task_id, task_info) VALUES (?,?)'
+	var params = [data.task_id, data.task_info]
+	db.run(sql, params, function(err, result) {
+		if(err) {
+			res.status(400).json({"error":err.message})
+			return
+		}
+		res.json({
+			"message":"success",
+			"data":data,
+		})
+	});
+})
 
+
+// Adds task completed task to database.
+app.post("/api/completed", (req, res, next) => {
+	var data = {
+		task_id: req.body.task_id,
+		task_info: req.body.task_info
+	}
+	var sql = 'INSERT INTO completed_task (task_id, task_info) VALUES (?,?)'
+	var params = [data.task_id, data.task_info]
+	db.run(sql, params, function(err, result) {
+		if(err) {
+			res.status(400).json({"error":err.message})
+			return
+		}
+		res.json({
+			"message":"success",
+			"data":data,
+		})
+	});
+})
 
 // Adds user to database.
-// Ex. curl -d "name=testing" -X POST http://localhost:8000/api/user/
 app.post("/api/user", (req, res, next) => {
 	var data = {
 		name: req.body.name

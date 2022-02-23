@@ -6,26 +6,39 @@ const test = async () => {
 	console.log(res.data);
 }
 
+const entryCompleted = async () => {
+	
+}
+
 const userButton = document.getElementById("getUsersButton");
 userButton.addEventListener("click", test);
 
 const getUserTasks = async (id) => {
-	const res = await axios.get(`${BASE_URL}/tasks`);
+	const res = await axios.get(`${BASE_URL}/task/${id}`);
 	const userTasks = document.getElementById("userTasks");
 
 	task = res.data;
-
 	res.data.data.forEach(task => {
-		const hehe = document.createElement("li");
-		hehe.innerHTML = task.task_info;
-		userTasks.appendChild(hehe)
+		const taskEntry = document.createElement("li");
+		const taskComplete = document.createElement("button");
+		const taskEdit = document.createElement("button");
+
+		taskEdit.textContent = "Edit Task";
+		taskComplete.textContent = "Complete Task";
+		taskEntry.innerHTML = task.task_info;
+
+		taskComplete.addEventListener("click", test);
+
+		taskEntry.appendChild(taskEdit);
+		taskEntry.appendChild(taskComplete);
+		userTasks.appendChild(taskEntry)
 	})
 	console.log(res.data);
 	console.log(`GETTING TASKS FOR USER: ${id}`);
 }
 
 const getCompletedUserTasks = async (id) => {
-	const res = await axios.get(`${BASE_URL}/completed`); // Lägg till /id när det funkar i REST API:et
+	const res = await axios.get(`${BASE_URL}/completed/${id}`); // Lägg till /id när det funkar i REST api
 
 	task = res.data;
 	const userTasks = document.getElementById("completedTasks");

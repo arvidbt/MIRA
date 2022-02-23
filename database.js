@@ -3,8 +3,8 @@ var md5 = require('md5')
 
 const DBSOURCE = "db.sqlite"
 const CREATE_USER_DB = "CREATE TABLE user (id INTEGER PRIMARY KEY AUTOINCREMENT, name text UNIQUE, CONSTRAINT name_unique UNIQUE(name))";
-const CREATE_TASK_DB = "CREATE TABLE task (id INTEGER PRIMARY KEY, task_info text)";
-const CREATE_COMPLETED_TASK_DB = "CREATE TABLE completed_task (id INTEGER PRIMARY KEY, task_info text)";
+const CREATE_TASK_DB = "CREATE TABLE task (id INTEGER PRIMARY KEY AUTOINCREMENT, task_id INTEGER, task_info text)";
+const CREATE_COMPLETED_TASK_DB = "CREATE TABLE completed_task (id INTEGER PRIMARY KEY AUTOINCREMENT, task_id INTEGER, task_info text)";
 
 let db = new sqlite3.Database(DBSOURCE, (err) => {
 	if(err) {
@@ -29,6 +29,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
 		db.run(CREATE_TASK_DB,
 		(err) => {
 			if(err) { /* Table already created */
+				console.log(err);
 			}
 			else {
 			}
