@@ -10,10 +10,13 @@
 	<h1>MIRA - Mega Innovative Reminder App</h1>
 	<select id="usersDropdown">
 	</select>
-	<form>
-		<label for="fname">Add task</label><br>
-		<input type="text" id="task"><br>
-		<input type="submit" value="Submit">
+	<form id="form">
+		<input name="user"/>
+		<button>Add user</button>
+	</form>
+	<form id="taskform">
+		<input name="task"/>
+		<button id="taskbutton">Add task</button>
 	</form>
 	<h2>Tasks</h2>
 	<ul id="userTasks"></ul>
