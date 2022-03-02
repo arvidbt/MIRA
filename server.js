@@ -19,8 +19,7 @@ app.listen(HTTP_PORT, () => {
 });
 
 
-// Get all users from DB.
-// Ex. http://localhost:8000/api/users
+//Get all entries from the table user.
 app.get("/api/users", (req, res, next) => {
 	var sql = "SELECT * FROM user"
 	var params = []
@@ -204,8 +203,7 @@ app.patch("/api/task/:id", (req, res, next) => {
     });
 })
 
-// delete a user
-// Ex: curl -X "DELETE" http://localhost:8000/api/user/x
+//Delete a specified user
 app.delete("/api/user/:id", (req, res) => {
 	db.run(
 		'DELETE FROM user WHERE id = ?',
@@ -219,7 +217,7 @@ app.delete("/api/user/:id", (req, res) => {
     });
 })
 
-
+//Delete a specified task from task table
 app.delete("/api/task/:id", (req, res) => {
 	console.log("Hehe");
 	db.run(
@@ -234,6 +232,7 @@ app.delete("/api/task/:id", (req, res) => {
     });
 })
 
+//Delete a specified task from completed_task table
 app.delete("/api/completed/:id", (req, res) => {
 	console.log("Hehe");
 	db.run(
@@ -248,9 +247,8 @@ app.delete("/api/completed/:id", (req, res) => {
     });
 })
 
+//Connects express to index.html
 app.use(express.static(path.join(__dirname, 'public')));
-
-
 app.get("/", (_, res) => {
 	res.sendFile("main.html");
 });
