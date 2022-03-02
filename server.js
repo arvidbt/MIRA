@@ -182,35 +182,12 @@ app.post("/api/user", (req, res, next) => {
 
 
 
-// Updates a user
-app.patch("/api/user/:id", (req, res, next) => {
-    var data = {
-        name: req.body.name,
-    }
-    db.run(
-        `UPDATE user 
-           name = coalesce(?,name), 
-           WHERE id = ?`,
-        [data.name, req.params.id],
-        (err, result) => {
-            if (err){
-                res.status(400).json({"error": res.message})
-                return;
-            }
-            res.json({
-                message: "success",
-                data: data
-            })
-    });
-})
-
-
-// Updates a user
+// Updates a task
 app.patch("/api/task/:id", (req, res, next) => {
-    var data = {task_info: req.body.name}
+    var data = {task_info: req.body.task_info}
     db.run(
         `UPDATE task set 
-           task_info = COALESCE(?,task_info), 
+           task_info = COALESCE(?,task_info)
            WHERE id = ?`,
         [data.task_info, req.params.id],
         function (err, result) {
@@ -233,7 +210,7 @@ app.delete("/api/user/:id", (req, res) => {
 	db.run(
 		'DELETE FROM user WHERE id = ?',
         req.params.id,
-        function (err, result) {
+        function (result, err) {
             if (err){
                 res.status(400).json({"error": res.message})
                 return;
@@ -242,12 +219,27 @@ app.delete("/api/user/:id", (req, res) => {
     });
 })
 
+
 app.delete("/api/task/:id", (req, res) => {
 	console.log("Hehe");
 	db.run(
 		'DELETE FROM task WHERE id = ?',
         req.params.id,
-        function (err, result) {
+        function (result, err) {
+            if (err){
+                res.status(400).json({"error": res.message})
+                return;
+            }
+            res.json({"message":"deleted", changes: this.changes})
+    });
+})
+
+app.delete("/api/completed/:id", (req, res) => {
+	console.log("Hehe");
+	db.run(
+		'DELETE FROM completed_task WHERE id = ?',
+        req.params.id,
+        function (result, err) {
             if (err){
                 res.status(400).json({"error": res.message})
                 return;

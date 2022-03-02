@@ -1,0 +1,342 @@
+body {
+  background-color: #ffc15e;
+  /*SPANISH RED #AE0D12*/
+  /*DARK BROWN #1F1300*/
+  /*ORANGE #CC5803*/
+  /*LIGHT BACKGROUND bisque*/
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+h1 {
+  color: #ae0d12;
+  /*background-color: aliceblue;*/
+  font-family: "Rye", cursive;
+  font-size: 72pt;
+  flex: 100%;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+h2 {
+  color: #cc5803;
+  font-family: "Rye", cursive;
+  text-align: left;
+}
+
+h4 {
+  color: #1f1300;
+  /*background-color: aliceblue;*/
+  font-family: "Rye", cursive;
+  flex: 100%;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+h5 {
+  color: #1f1300;
+  /*background-color: aliceblue;*/
+  flex: 100%;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+}
+
+/*LIST BUTTONS*/
+
+li button {
+  display: inline-block;
+  font-weight: 400;
+  color: #212529;
+  text-align: center;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-color: transparent;
+  border: 1px solid transparent;
+  padding: 0.375rem 0.75rem;
+  margin-left: 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: 0.25rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  /*Styling*/
+  /*
+    Edit color (YELLOW): #FFC12B
+    */
+  color: #28a745;
+  border-color: #28a745;
+}
+
+li button:hover {
+  color: #fff;
+  background-color: #28a745;
+  border-color: #28a745;
+}
+
+li button:focus,
+li button.focus {
+  box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.5);
+}
+
+li button.disabled,
+li button:disabled {
+  color: #28a745;
+  background-color: transparent;
+}
+
+li button:not(:disabled):not(.disabled):active,
+li button:not(:disabled):not(.disabled).active,
+li .show > button.dropdown-toggle {
+  color: #fff;
+  background-color: #28a745;
+  border-color: #28a745;
+}
+
+li button:not(:disabled):not(.disabled):active:focus,
+li button:not(:disabled):not(.disabled).active:focus,
+li .show > button.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.5);
+}
+
+/*START EDIT BUTTON*/
+
+li .edit-btn {
+  display: inline-block;
+  font-weight: 400;
+  color: #212529;
+  text-align: center;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-color: transparent;
+  border: 1px solid transparent;
+  padding: 0.375rem 0.75rem;
+  margin-left: 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: 0.25rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  /*Styling*/
+  /*
+    Edit color (YELLOW): #FFC12B
+    */
+  color: #ffc12b;
+  border-color: #ffc12b;
+}
+
+li .edit-btn:hover {
+  color: #fff;
+  background-color: #ffc12b;
+  border-color: #ffc12b;
+}
+
+li .edit-btn:focus,
+li .edit-btn.focus {
+  box-shadow: 0 0 0 0.2rem rgba(255, 193, 43, 0.5);
+}
+
+li .edit-btn.disabled,
+li .edit-btn:disabled {
+  color: #ffc12b;
+  background-color: transparent;
+}
+
+li .edit-btn:not(:disabled):not(.disabled):active,
+li .edit-btn:not(:disabled):not(.disabled).active,
+li .show > .edit-btn.dropdown-toggle {
+  color: #fff;
+  background-color: #ffc12b;
+  border-color: #ffc12b;
+}
+
+li .edit-btn:not(:disabled):not(.disabled):active:focus,
+li .edit-btn:not(:disabled):not(.disabled).active:focus,
+li .show > .edit-btn.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem rgba(255, 193, 43, 0.5);
+}
+
+/*END EDIT BUTTON*/
+
+/*START DELETE BUTTON*/
+
+li .delete-btn {
+  display: inline-block;
+  font-weight: 400;
+  color: #212529;
+  text-align: center;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-color: transparent;
+  border: 1px solid transparent;
+  padding: 0.375rem 0.75rem;
+  margin-left: 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: 0.25rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  /*Styling*/
+  /*
+    Delete color (RED): #DC3545
+    */
+  color: #dc3545;
+  border-color: #dc3545;
+}
+
+li .delete-btn:hover {
+  color: #fff;
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+li .delete-btn:focus,
+li .delete-btn.focus {
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.5);
+}
+
+li .delete-btn.disabled,
+li .delete-btn:disabled {
+  color: #dc3545;
+  background-color: transparent;
+}
+
+li .delete-btn:not(:disabled):not(.disabled):active,
+li .delete-btn:not(:disabled):not(.disabled).active,
+li .show > .delete-btn.dropdown-toggle {
+  color: #fff;
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+li .delete-btn:not(:disabled):not(.disabled):active:focus,
+li .delete-btn:not(:disabled):not(.disabled).active:focus,
+li .show > .delete-btn.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.5);
+}
+
+/*END DELETE BUTTON*/
+
+/*END LIST BUTTONS*/
+
+li {
+  position: relative;
+  background-color: #fff;
+  display: block;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 5px;
+  /*background-color: ;*/
+  border: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+li:first-child {
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+}
+
+li:last-child {
+  margin-bottom: 0;
+  border-bottom-right-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+}
+
+/*Edit button*/
+li button:first-of-type {
+}
+
+/*Complete button*/
+li button:last-of-type {
+}
+
+input:focus::placeholder {
+  color: transparent;
+}
+
+.dropdown {
+  /*background-color: aliceblue;*/
+  flex: 100%;
+  flex-direction: column;
+  justify-content: left;
+  align-items: left;
+}
+
+.addTask {
+  /*background-color: aliceblue;*/
+  flex: 100%;
+}
+
+.tasks {
+  flex: 100%;
+}
+
+/* TODO
+  .ctasks {
+    
+  }
+  */
+
+/*MAIN RIBBON*/
+
+.ribbon {
+  font-size: 24px !important;
+  /* This ribbon is based on a 16px font side and a 24px vertical rhythm. I've used em's to position each element for scalability. If you want to use a different font size you may have to play with the position of the ribbon elements */
+
+  width: 45%;
+
+  position: relative;
+  background: #ae0d12;
+  color: bisque;
+  text-align: center;
+  padding: 1em 2em; /* Adjust to suit */
+  margin: 0em auto 3em; /* Based on 24px vertical rhythm. 48px bottom margin - normally 24 but the ribbon 'graphics' take up 24px themselves so we double it. */
+}
+.ribbon:before,
+.ribbon:after {
+  content: "";
+  position: absolute;
+  display: block;
+  bottom: -1em;
+  border: 1.5em solid #850b0f;
+  z-index: -1;
+}
+.ribbon:before {
+  left: -2em;
+  border-right-width: 1.5em;
+  border-left-color: transparent;
+}
+.ribbon:after {
+  right: -2em;
+  border-left-width: 1.5em;
+  border-right-color: transparent;
+}
+.ribbon .ribbon-content:before,
+.ribbon .ribbon-content:after {
+  content: "";
+  position: absolute;
+  display: block;
+  border-style: solid;
+  border-color: #66090c transparent transparent transparent;
+  bottom: -1em;
+}
+.ribbon .ribbon-content:before {
+  left: 0;
+  border-width: 1em 0 0 1em;
+}
+.ribbon .ribbon-content:after {
+  right: 0;
+  border-width: 1em 1em 0 0;
+}

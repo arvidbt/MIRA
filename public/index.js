@@ -22,25 +22,18 @@ const addEntryToCompleted = (task_id, task_info) => {
 	})
 }
 
-
 const entryEdit = async (id) => {
-	const res = await axios.patch(`${BASE_URL}/task/${id}`, {task_info: "Det funkar!"}).then(function(response) {
-		console.log(response);
-	})
-	// var taskEdited = new FormData(taskform);
-	// for(const [name, value] of taskEdited) {
-	// 	axios.patch(`${BASE_URL}/task`, {
-	// 		task_info: value
-	// 	}).then(function(response) {
-	// 		console.log(response);
-	// 	})
-	// };
-
-	// Ändra submit form text till edit
-	// ändra destination för submit
-	// patcha result?
-	// ändra tillbaka submit till add	
-
+	const userID = document.getElementById("usersDropdown").value;
+	var editResponse = prompt("Edit task: ", "");
+	const res = await axios.patch(`${BASE_URL}/task/${id}`,
+		{task_info: editResponse})
+		.then(function(response) {
+			console.log(response)
+		});
+	console.log(id);
+	clearUserTasks();
+	getUserTasks(userID);
+	getCompletedUserTasks(userID);
 }
 
 /**
@@ -50,16 +43,20 @@ const entryEdit = async (id) => {
 const getUserTasks = async (id) => {
 	const res = await axios.get(`${BASE_URL}/task/${id}`);
 	const userTasks = document.getElementById("userTasks");
-
 	task = res.data;
 	res.data.data.forEach(task => {
 		const taskEntry = document.createElement("li");
 		const taskComplete = document.createElement("button");
 		const taskEdit = document.createElement("button");
+		const taskName = document.createElement("h5");
 
-		taskEdit.textContent = "Edit Task";
-		taskComplete.textContent = "Complete Task";
-		taskEntry.innerHTML = task.task_info;
+		taskEdit.textContent = "Edit";
+		taskEdit.className = "edit-btn col";
+		taskComplete.textContent = "Complete";
+		taskComplete.className = "complete-btn col";
+		taskName.textContent = task.task_info;
+		taskName.className = "col-8";
+		taskEntry.className = "row align-items-center";
 
 		taskComplete.addEventListener("click", (event) => {
 			addEntryToCompleted(task.task_id, task.task_info);
@@ -67,9 +64,9 @@ const getUserTasks = async (id) => {
 		});
 		taskEdit.addEventListener("click", (event) => {
 			entryEdit(task.id);
-			document.getElementById("taskbutton").innerText = "Add task";
 		})
 
+		taskEntry.appendChild(taskName);
 		taskEntry.appendChild(taskEdit);
 		taskEntry.appendChild(taskComplete);
 		userTasks.appendChild(taskEntry)
@@ -85,12 +82,37 @@ const getCompletedUserTasks = async (id) => {
 	task = res.data;
 	const userTasks = document.getElementById("completedTasks");
 	res.data.data.forEach(task => {
-		const hehe = document.createElement("li");
-		hehe.innerHTML = task.task_info;
-		userTasks.appendChild(hehe)
+		const completedEntry = document.createElement("li");
+		const deleteCompleteBtn = document.createElement("button");
+		deleteCompleteBtn.className = "delete-btn col";
+		const cTaskName = document.createElement("h5");
+		completedEntry.className = "row align-items-center";
+		cTaskName.className = "col-10";
+		cTaskName.textContent = task.task_info;
+		deleteCompleteBtn.textContent = "Delete";
+
+		deleteCompleteBtn.addEventListener("click", (event) => {
+			deleteCompletedTask(task.id);
+		})
+
+		completedEntry.appendChild(cTaskName);
+		completedEntry.appendChild(deleteCompleteBtn);
+		userTasks.appendChild(completedEntry)
 	})
 	console.log(res.data);
 }
+
+const deleteCompletedTask = (id) => {
+	const userID = document.getElementById("usersDropdown").value;
+	console.log(id);
+	axios.delete(`${BASE_URL}/completed/${id}`).then(function(response) {
+		console.log(response);
+	});
+	clearUserTasks();
+	getCompletedUserTasks(userID);
+	getUserTasks(userID);
+}
+
 
 
 const createOption = (user) => {
@@ -107,13 +129,10 @@ const deleteUserTasks = (id) => {
 	const res = axios.delete(`${BASE_URL}/task/${id}`)
 }
 
-const deleteUserCompletedTasks = async (id) => {
-
-}
-
 const appendUsers = async  () => {
 	const selectUsersElem = document.getElementById("usersDropdown");
 	const res = await axios.get(`${BASE_URL}/users`);
+	console.log(res);
 	const users = res.data;
 	users.data.forEach(user => {
 		console.log(user)
@@ -146,6 +165,7 @@ const onSubmitTask = () => {
 				console.log(response);
 			})
 		}
+		taskform.reset();
 		clearUserTasks();
 		getUserTasks(userID);
 		getCompletedUserTasks(userID);
@@ -165,36 +185,55 @@ const onAddUser = () => {
 				});
 			}
 		}
+		form.reset();
 		clearDropdown();
 		appendUsers();
 	});
 }
 
-const main = async () => {
+const onDeleteUser = () => {
+	const deleteUser = document.getElementById("deleteuser");
+	deleteUser.addEventListener("click", (event) =>  {
+		const id = document.getElementById("usersDropdown").value;
+		const res = axios.delete(`${BASE_URL}/user/${id}`).then(function(response) {
+			console.log(response);
+			console.log("wiho");
+		}).catch((error) => {
+			console.log("test test");
+			console.log(error);
+		})
+		document.getElementById("usersDropdown").innerHTML = "";
+		console.log(res);
+		appendUsers();
+		clearUserTasks(id);
+	});
+}
+
+const onLoadUser = () => {
 	const selectUsersElem = document.getElementById("usersDropdown");
-	const form = document.getElementById("form");
-	const deleteUser = document.getElementById("getUsersButton");
-	const optionValue = document.getElementById("usersDropdown").value;
+	selectUsersElem.addEventListener("input", (event) => {
+		const id = document.getElementById("usersDropdown").value;
+		clearUserTasks();
+		getUserTasks(id);
+		getCompletedUserTasks(id);
+	});
+}
+
+const loadInitialUser = async () => {
+	const res = await axios.get(`${BASE_URL}/users`);
+	console.log(res);
+	getUserTasks(res.data.data[0].id);
+	getCompletedUserTasks(res.data.data[0].id);
+}
+
+const main = async () => {
+	clearUserTasks();
 	onAddUser();
 	appendUsers();
 	onSubmitTask();
-	getUserTasks(optionValue);
-	getCompletedUserTasks(optionValue);
-
-	selectUsersElem.addEventListener("input", (event) => {
-		const optionValue = document.getElementById("usersDropdown").value;
-		clearUserTasks();
-
-		getUserTasks(optionValue);
-		getCompletedUserTasks(optionValue);
-	});
-
-	deleteUser.addEventListener("click", (event) =>  {
-		const optionValue = document.getElementById("usersDropdown").value;
-		console.log(optionValue);
-		axios.delete(`${BASE_URL}/user/${optionValue}`);
-		// TRIGGER TO DELETE ALL TASKS
-	})
+	onLoadUser();
+	onDeleteUser();
+	loadInitialUser();
 }
 
 main();
