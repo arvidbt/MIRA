@@ -7,11 +7,13 @@ const CREATE_COMPLETED_TASK_DB = "CREATE TABLE IF NOT EXISTS completed_task (id 
 const CREATE_TASK_DELETE_TRIGGER = "CREATE TRIGGER IF NOT EXISTS deleteTaskTrigger BEFORE DELETE ON user FOR EACH ROW BEGIN DELETE FROM task WHERE OLD.id = task_id; END";
 const CREATE_COMPLETED_TASK_DELETE_TRIGGER = "CREATE TRIGGER IF NOT EXISTS deleteCompletedTaskTrigger BEFORE DELETE ON user FOR EACH ROW BEGIN DELETE FROM completed_task WHERE OLD.id = task_id; END";
 
+// Creates the database.
 let db = new sqlite3.Database(DBSOURCE, (err) => {
 	if(err) {
 		console.log(err.message)
 		throw err
 	} else {
+		// Run all functions in order.
 		db.serialize(function() {
 			db.run(CREATE_USER_DB, (err) => {
 				if(err) { console.log(err) };

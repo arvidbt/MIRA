@@ -1,7 +1,7 @@
 
 const BASE_URL = "http://localhost:8000/api"
 
-
+// Completes a entry. Deletes from task table and reload the users list.
 const entryCompleted = (id) => {
 	const userID = document.getElementById("usersDropdown").value;
 	console.log(id);
@@ -13,6 +13,7 @@ const entryCompleted = (id) => {
 	getUserTasks(userID);
 }
 
+// Adds entry to completed_task table.
 const addEntryToCompleted = (task_id, task_info) => {
 	axios.post(`${BASE_URL}/completed`, {
 		task_id: task_id,
@@ -22,6 +23,7 @@ const addEntryToCompleted = (task_id, task_info) => {
 	})
 }
 
+// Edits a entry from task_table.
 const entryEdit = async (id) => {
 	const userID = document.getElementById("usersDropdown").value;
 	var editResponse = prompt("Edit task: ", "");
@@ -36,6 +38,7 @@ const entryEdit = async (id) => {
 	getCompletedUserTasks(userID);
 }
 
+// Loads all users from user table. 
 /**
  * Loads all non-completed tasks for a user.
  * @param {*} id 
@@ -73,10 +76,7 @@ const getUserTasks = async (id) => {
 	})
 }
 
-/**
- * Loads all completed tasks for a user.
- * @param {*} id 
- */
+// Gets all entries from completed_task table
 const getCompletedUserTasks = async (id) => {
 	const res = await axios.get(`${BASE_URL}/completed/${id}`);
 	task = res.data;
@@ -102,6 +102,7 @@ const getCompletedUserTasks = async (id) => {
 	console.log(res.data);
 }
 
+// Deletes a task from completed_task table.
 const deleteCompletedTask = (id) => {
 	const userID = document.getElementById("usersDropdown").value;
 	console.log(id);
@@ -114,7 +115,7 @@ const deleteCompletedTask = (id) => {
 }
 
 
-
+// Creates a user option.
 const createOption = (user) => {
 	const option = document.createElement("option");
 	option.addEventListener("change", () => {
@@ -125,10 +126,12 @@ const createOption = (user) => {
 	return option;
 }
 
+// Deletes a task from task_table.
 const deleteUserTasks = (id) => {
 	const res = axios.delete(`${BASE_URL}/task/${id}`)
 }
 
+// Adds users to a dropdown list.
 const appendUsers = async  () => {
 	const selectUsersElem = document.getElementById("usersDropdown");
 	const res = await axios.get(`${BASE_URL}/users`);
@@ -141,16 +144,19 @@ const appendUsers = async  () => {
 	});
 }
 
+// Clears the dropdown list.
 const clearDropdown = () => {
 	document.getElementById("usersDropdown").options.length = 0;
 	
 }
 
+// Clears the UL with all user tasks.
 const clearUserTasks = () => {
 	document.getElementById("userTasks").innerHTML = "";
 	document.getElementById("completedTasks").innerHTML = "";
 }
 
+// Adds task to task table.
 const onSubmitTask = () => {
 	const taskform = document.getElementById("taskform");
 	taskform.addEventListener("submit", function(e) {
@@ -173,6 +179,7 @@ const onSubmitTask = () => {
 	});
 }
 
+// Adds user to user table.
 const onAddUser = () => {
 	const form = document.getElementById("form");
 	form.addEventListener("submit", function(e) {
@@ -191,6 +198,7 @@ const onAddUser = () => {
 	});
 }
 
+// Deletes user from user table. This triggers a trigger, and all users tasks are removed aswell.
 const onDeleteUser = () => {
 	const deleteUser = document.getElementById("deleteuser");
 	deleteUser.addEventListener("click", (event) =>  {
@@ -209,6 +217,7 @@ const onDeleteUser = () => {
 	});
 }
 
+// Loads all tasks and completed tasks when user chosen.
 const onLoadUser = () => {
 	const selectUsersElem = document.getElementById("usersDropdown");
 	selectUsersElem.addEventListener("input", (event) => {
@@ -219,6 +228,7 @@ const onLoadUser = () => {
 	});
 }
 
+// Loads the first user.
 const loadInitialUser = async () => {
 	const res = await axios.get(`${BASE_URL}/users`);
 	console.log(res);
@@ -226,6 +236,7 @@ const loadInitialUser = async () => {
 	getCompletedUserTasks(res.data.data[0].id);
 }
 
+// mainy painy
 const main = async () => {
 	clearUserTasks();
 	onAddUser();
